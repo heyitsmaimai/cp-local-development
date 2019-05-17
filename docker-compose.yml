@@ -31,6 +31,7 @@ services:
       - clubs-service
       - maildev
       - email
+      - leads-service
     environment:
       - CD_USERS=users
       - CD_DOJOS=dojos
@@ -42,6 +43,7 @@ services:
       - EMAIL_SERVICE=email
       - NODE_ENV=development
       - MAILDEV_ENABLED=true
+      - LEADS_SERVICE=leads-service
     volumes:
       - ./workspace-zen/cp-zen-platform:/usr/src/app:Z
       - ./workspace-zen/cp-zen-frontend:/usr/src/app/node_modules/cp-zen-frontend:ro
@@ -203,5 +205,15 @@ services:
       - ./workspace-zen/services/users-service:/usr/src/app:Z
     ports:
       - 9233:9229
+  leads-service:
+    image: python:3.6
+    command: yarn dev
+    working_dir: /usr/src/app
+    depends_on:
+      - db
+    volumes:
+      - ./workspace-zen/leads-service:/usr/src/app:Z
+    ports:
+      - 5000:5000
 volumes:
   pg-data:
