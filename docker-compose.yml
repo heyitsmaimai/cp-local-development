@@ -207,13 +207,11 @@ services:
       - 9233:9229
   leads-service:
     image: python:3.6
-    command: yarn dev
+    command:  bash -c "pip install -r requirements.txt && export FLASK_APP=flaskr/app.py && export FLASK_DEBUG=1 && alembic upgrade head && flask run --host=0.0.0.0"
     working_dir: /usr/src/app
     depends_on:
       - db
     volumes:
-      - ./workspace-zen/leads-service:/usr/src/app:Z
-    ports:
-      - 5000:5000
+      - ./workspace-zen/cp-leads-service:/usr/src/app:Z
 volumes:
   pg-data:
